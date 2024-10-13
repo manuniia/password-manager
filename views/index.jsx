@@ -1,7 +1,11 @@
-var React = require('react');
- 
+var React = require("react");
+
 function HelloMessage(props) {
-  return <div>Hello {props.name}</div>;
+  return (
+    <div>
+      <div>Hello {props.name}</div>;
+    </div>
+  );
 }
- 
+
 module.exports = HelloMessage;
