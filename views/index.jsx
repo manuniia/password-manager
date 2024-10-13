@@ -1,15 +1,17 @@
 var React = require("react");
+var Layout = require("./components/Layout");
 
 function HelloMessage({ name, users }) {
   return (
-    <div>
-      <div>Hello {name}</div>
+    <Layout>
       <ul>
         {users.map((user) => (
-          <li key={user.login}>{user.login}</li>
+          <li key={user.login}>
+            login:{user.login} hash:{user.hash}
+          </li>
         ))}
       </ul>
-    </div>
+    </Layout>
   );
 }
 

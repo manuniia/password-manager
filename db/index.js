@@ -1,4 +1,5 @@
 const sqlite3 = require("sqlite3").verbose();
+const { DB_FILE_PATH } = require("../const");
 
 class Database {
   constructor() {
@@ -6,31 +7,59 @@ class Database {
       return Database.instance;
     }
 
-    this.connection = new sqlite3.Database(":memory:");
-
-    this.connection.serialize(() => {
-      this.connection.run("CREATE TABLE users (login TEXT, password TEXT)");
-      const stmt = this.connection.prepare("INSERT INTO users VALUES (?, ?)");
-
-      for (let i = 0; i < 10; i++) {
-        stmt.run(`login ${i}`, `password ${i}`);
-      }
-
-      stmt.finalize();
-    });
+    this.connection = new sqlite3.Database(DB_FILE_PATH);
+    this.init();
 
     Database.instance = this;
   }
 
+  init() {
+    this.connection.serialize(() => {
+      this.connection.run(
+        `CREATE TABLE IF NOT EXISTS users (
+            id INTEGER PRIMARY KEY,
+            login TEXT UNIQUE,
+            hash TEXT
+        )`
+      );
+    });
+  }
+
   async all(query, params = []) {
     return new Promise((resolve, reject) => {
-      this.connection.all(query, params, (err, rows) => {
+      this.connection.all(query, params, function (err, rows) {
         if (err) {
           reject(err);
           return;
         }
 
         resolve(rows);
+      });
+    });
+  }
+
+  async get(query, params = []) {
+    return new Promise((resolve, reject) => {
+      this.connection.get(query, params, function (err, row) {
+        if (err) {
+          reject(err);
+          return;
+        }
+
+        resolve(row);
+      });
+    });
+  }
+
+  async run(query, params = []) {
+    return new Promise((resolve, reject) => {
+      this.connection.run(query, params, function (err) {
+        if (err) {
+          reject(err);
+          return;
+        }
+
+        resolve();
       });
     });
   }
