@@ -43,4 +43,38 @@ async function signUp({ login, password, confirm_password }) {
   return null;
 }
 
-module.exports = { signUp };
+async function logIn({ login, password }) {
+  const validationErrors = {};
+  let hasValidationErrors = false;
+
+  if (!login) {
+    validationErrors.login = "Login cannot be an empty string";
+    hasValidationErrors = true;
+  }
+
+  if (!password) {
+    validationErrors.password = "Password cannot be an empty string";
+    hasValidationErrors = true;
+  }
+
+  if (hasValidationErrors) {
+    return validationErrors;
+  }
+
+  const user = await userTable.findByLogin(login);
+  if (!user) {
+    validationErrors.password = "Either login or password is incorrect";
+    return validationErrors;
+  }
+
+  isPasswordCorrect = await bcrypt.compare(password, user.hash);
+
+  if (!isPasswordCorrect) {
+    validationErrors.password = "Either login or password is incorrect";
+    return validationErrors;
+  }
+
+  return null;
+}
+
+module.exports = { signUp, logIn };

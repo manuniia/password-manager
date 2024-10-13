@@ -43,4 +43,23 @@ router.get("/login", async function (req, res, next) {
   res.render("login");
 });
 
+router.post("/login", async function (req, res, next) {
+  const {
+    body: { login, password },
+  } = req;
+
+  const validationErrors = await userService.logIn({ login, password });
+
+  if (!validationErrors) {
+    res.redirect("/dashboard");
+    return;
+  }
+
+  res.render("login", { login, password, validationErrors });
+});
+
+router.get("/dashboard", async function (req, res, next) {
+  res.render("dashboard");
+});
+
 module.exports = router;
