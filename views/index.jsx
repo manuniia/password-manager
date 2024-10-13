@@ -1,9 +1,14 @@
 var React = require("react");
 
-function HelloMessage(props) {
+function HelloMessage({ name, users }) {
   return (
     <div>
-      <div>Hello {props.name}</div>;
+      <div>Hello {name}</div>
+      <ul>
+        {users.map((user) => (
+          <li key={user.login}>{user.login}</li>
+        ))}
+      </ul>
     </div>
   );
 }
