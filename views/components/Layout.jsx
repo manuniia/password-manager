@@ -2,7 +2,12 @@ var React = require("react");
 
 const DEFAULT_TITLE = "Password Manager";
 
-function Layout({ title = DEFAULT_TITLE, children }) {
+function Layout({
+  title = DEFAULT_TITLE,
+  children,
+  user = { isLoggedIn: false, login: "" },
+}) {
+  // TODO add logic displaying appropriate buttons and login/username depending if the user is logged in ornot
   return (
     <html lang="en">
       <head>
@@ -14,7 +19,25 @@ function Layout({ title = DEFAULT_TITLE, children }) {
         ></link>
         <title>{title}</title>
       </head>
-      <body>
+      <body className="container">
+        <header>
+          <nav>
+            <ul>
+              <li>
+                <strong>Password Manager</strong>
+              </li>
+            </ul>
+            <ul>
+              <li>
+                {isLoggedIn ? (
+                  <a href="/logout">Log Out</a>
+                ) : (
+                  <a href="/logout">Log Out</a>
+                )}
+              </li>
+            </ul>
+          </nav>
+        </header>
         <main className="container">{children}</main>
       </body>
     </html>

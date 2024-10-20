@@ -5,10 +5,24 @@ const userService = require("../services/user.service");
 
 const db = new Database();
 
-router.get("/", async function (req, res, _next) {
-  const users = await db.all("SELECT rowid AS id, login, hash FROM users");
+const isAuth = (req, res, next) => {
+  if (!req.session?.user?.isLoggedIn) {
+    res.redirect("/login");
+    return;
+  }
 
-  res.render("index", { name: "Express", users });
+  next();
+};
+
+router.get("/", async function (req, res, _next) {
+  if (req.session.user?.isLoggedIn) {
+    res.redirect("/dashboard");
+    return;
+  }
+
+  // TODO render home page
+
+  res.redirect("/login"); // fix: user should go to login page by clicking a button
 });
 
 router.get("/signup", async function (req, res, next) {
@@ -51,6 +65,18 @@ router.post("/login", async function (req, res, next) {
   const validationErrors = await userService.logIn({ login, password });
 
   if (!validationErrors) {
+    req.session.user = {
+      isLoggedIn: true,
+      login: login,
+    };
+
+    req.session.save((err) => {
+      if (!err) {
+        return;
+      }
+      console.log("Error saving session", err);
+    });
+
     res.redirect("/dashboard");
     return;
   }
@@ -58,8 +84,20 @@ router.post("/login", async function (req, res, next) {
   res.render("login", { login, password, validationErrors });
 });
 
-router.get("/dashboard", async function (req, res, next) {
-  res.render("dashboard");
+router.get("/dashboard", isAuth, async function (req, res, next) {
+  const { user } = req.session;
+
+  res.render("dashboard", { user });
+});
+
+router.get("/logout", async function (req, res, next) {
+  req.session.destroy((err) => {
+    if (err) {
+      console.log("Error destroying session", err);
+    } else {
+      res.redirect("/");
+    }
+  });
 });
 
 module.exports = router;
