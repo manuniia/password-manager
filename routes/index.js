@@ -20,9 +20,10 @@ router.get("/", async function (req, res, _next) {
     return;
   }
 
-  // TODO render home page
+  res.render("/home");
 
-  res.redirect("/login"); // fix: user should go to login page by clicking a button
+  onClick(router.push("/login"));
+  // res.redirect("/login"); // fix: user should go to login page by clicking a button
 });
 
 router.get("/signup", async function (req, res, next) {
