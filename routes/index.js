@@ -15,14 +15,7 @@ const isAuth = (req, res, next) => {
 };
 
 router.get("/", async function (req, res, _next) {
-  if (req.session.user?.isLoggedIn) {
-    res.redirect("/dashboard");
-    return;
-  }
-
-  // TODO render home page
-
-  res.redirect("/login"); // fix: user should go to login page by clicking a button
+  res.render("home", { user: req.session.user });
 });
 
 router.get("/signup", async function (req, res, next) {
@@ -86,6 +79,10 @@ router.post("/login", async function (req, res, next) {
 
 router.get("/dashboard", isAuth, async function (req, res, next) {
   const { user } = req.session;
+  if (!user?.isLoggedIn) {
+    res.redirect("/login");
+    return;
+  }
 
   res.render("dashboard", { user });
 });

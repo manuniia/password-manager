@@ -7,7 +7,6 @@ function Layout({
   children,
   user = { isLoggedIn: false, login: "" },
 }) {
-  // TODO add logic displaying appropriate buttons and login/username depending if the user is logged in ornot
   return (
     <html lang="en">
       <head>
@@ -24,18 +23,35 @@ function Layout({
           <nav>
             <ul>
               <li>
-                <strong>Password Manager</strong>
+                <a className="secondary" href="/">
+                  <strong>Password Manager</strong>
+                </a>
               </li>
             </ul>
-            <ul>
-              <li>
-                {isLoggedIn ? (
-                  <a href="/logout">Log Out</a>
-                ) : (
-                  <a href="/logout">Log Out</a>
-                )}
-              </li>
-            </ul>
+            {user.isLoggedIn ? (
+              <ul>
+                <li>
+                  <a href="/dashboard">Dashboard</a>
+                </li>
+
+                <li>
+                  <details className="dropdown">
+                    <summary>{user.login}</summary>
+                    <ul dir="rtl">
+                      <li>
+                        <a href="/logout">Log out</a>
+                      </li>
+                    </ul>
+                  </details>
+                </li>
+              </ul>
+            ) : (
+              <ul>
+                <li>
+                  <a href="/login">Log in</a>
+                </li>
+              </ul>
+            )}
           </nav>
         </header>
         <main className="container">{children}</main>
