@@ -8,6 +8,7 @@ const SQLiteStore = require("connect-sqlite3")(session);
 const csurf = require("tiny-csrf");
 
 const indexRouter = require("./routes/index");
+
 const {
   DB_FILE_NAME,
   DB_FILE_FOLDER,
