@@ -49,7 +49,7 @@ function validateInsertData({ loginUrl, login, password, masterPassword }) {
 
   if (!masterPassword) {
     validationErrors.masterPassword =
-      "Master pPassword cannot be an empty string";
+      "Master password cannot be an empty string";
     hasValidationErrors = true;
   }
 

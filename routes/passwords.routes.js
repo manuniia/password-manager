@@ -20,10 +20,6 @@ router.get("/passwords/new", async function (req, res, next) {
   res.render("new-password", {
     user,
     csrfToken,
-    loginUrl: "google.com",
-    login: "user",
-    password: "pass",
-    masterPassword: "master",
   });
 });
 
