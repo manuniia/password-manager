@@ -72,16 +72,16 @@ router.post("/login", async function (req, res, next) {
       console.log("Error saving session", err);
     });
 
-    res.redirect("/dashboard");
+    res.redirect("/passwords");
     return;
   }
 
   res.render("login", { login, password, validationErrors });
 });
 
-router.get("/dashboard", isAuth, async function (req, res, next) {
+router.get("/passwords", isAuth, async function (req, res, next) {
   const { user } = req.session;
-  res.render("dashboard", { user });
+  res.render("passwords", { user });
 });
 
 router.get("/logout", async function (req, res, next) {

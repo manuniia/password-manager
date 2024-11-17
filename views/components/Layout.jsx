@@ -31,7 +31,7 @@ function Layout({
             {user.isLoggedIn ? (
               <ul>
                 <li>
-                  <a href="/dashboard">Dashboard</a>
+                  <a href="/passwords">Passwords</a>
                 </li>
 
                 <li>

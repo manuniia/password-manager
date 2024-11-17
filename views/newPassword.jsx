@@ -3,7 +3,7 @@ const Layout = require("./components/Layout");
 const InputField = require("./components/InputField");
 const CsrfTokenField = require("./components/CsrfTokenField");
 
-function AddPassword({ login, password, validationErrors = {}, csrfToken }) {
+function NewPassword({ login, password, validationErrors = {}, csrfToken }) {
   return (
     <Layout>
       <h3>Add password</h3>
@@ -47,4 +47,4 @@ function AddPassword({ login, password, validationErrors = {}, csrfToken }) {
   );
 }
 
-module.exports = AddPassword;
+module.exports = NewPassword;

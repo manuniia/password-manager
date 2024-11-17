@@ -1,11 +1,9 @@
 const React = require("react");
 const Layout = require("./components/Layout");
 
-function DashBoard({ user, rows = [] }) {
+function Passwords({ user, rows = [] }) {
   return (
     <Layout user={user}>
-      <h3>Dashboard</h3>
-
       <table>
         <thead>
           <tr>
@@ -42,4 +40,4 @@ function DashBoard({ user, rows = [] }) {
   );
 }
 
-module.exports = DashBoard;
+module.exports = Passwords;
