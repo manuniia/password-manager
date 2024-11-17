@@ -1,12 +1,14 @@
 const React = require("react");
 const Layout = require("./components/Layout");
 const InputField = require("./components/InputField");
+const CsrfTokenField = require("./components/CsrfTokenField");
 
 function SignUp({
   validationErrors = {},
   login = "",
   password = "",
   confirm_password = "",
+  csrfToken,
 }) {
   return (
     <Layout>
@@ -14,6 +16,8 @@ function SignUp({
       <h3>Sign Up</h3>
 
       <form action="/signup" method="post">
+        <CsrfTokenField csrfToken={csrfToken} />
+
         <InputField
           name="login"
           label="Login"

@@ -1,14 +1,17 @@
 const React = require("react");
 const Layout = require("./components/Layout");
 const InputField = require("./components/InputField");
+const CsrfTokenField = require("./components/CsrfTokenField");
 
-function Login({ login, password, validationErrors = {} }) {
+function Login({ login, password, validationErrors = {}, csrfToken }) {
   return (
     <Layout>
       <h1>Password Manger</h1>
       <h3>Log In</h3>
 
       <form action="/login" method="post">
+        <CsrfTokenField csrfToken={csrfToken} />
+
         <InputField
           name="login"
           label="Login"

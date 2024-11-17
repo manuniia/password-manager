@@ -19,7 +19,8 @@ router.get("/", async function (req, res, _next) {
 });
 
 router.get("/signup", async function (req, res, next) {
-  res.render("signup");
+  const csrfToken = req.csrfToken();
+  res.render("signup", { csrfToken });
 });
 
 router.post("/signup", async function (req, res, next) {
@@ -47,7 +48,8 @@ router.post("/signup", async function (req, res, next) {
 });
 
 router.get("/login", async function (req, res, next) {
-  res.render("login");
+  const csrfToken = req.csrfToken();
+  res.render("login", { csrfToken });
 });
 
 router.post("/login", async function (req, res, next) {

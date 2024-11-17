@@ -5,6 +5,7 @@ const logger = require("morgan");
 const app = express();
 const session = require("express-session");
 const SQLiteStore = require("connect-sqlite3")(session);
+const csurf = require("tiny-csrf");
 
 const indexRouter = require("./routes/index");
 const {
@@ -12,6 +13,8 @@ const {
   DB_FILE_FOLDER,
   SESSION_SECRET,
   SESSION_COOKIE_MAX_AGE,
+  CSRF_SECRET,
+  COOKIE_PARSER_SECRET,
 } = require("./const");
 
 app.use(
@@ -30,8 +33,14 @@ app.use(
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
+app.use(cookieParser(COOKIE_PARSER_SECRET));
 app.use(express.static(path.join(__dirname, "public")));
+app.use(
+  csurf(
+    CSRF_SECRET, // secret -- must be 32 bits or chars in length
+    ["POST"] // the request methods we want CSRF protection for
+  )
+);
 
 app.set("views", __dirname + "/views");
 app.set("view engine", "jsx");
