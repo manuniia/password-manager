@@ -1,7 +1,7 @@
 const React = require("react");
 const Layout = require("./components/Layout");
 
-function Passwords({ user, rows = [] }) {
+function Passwords({ user, rows = [], hideAddButton = false }) {
   return (
     <Layout user={user}>
       <table>
@@ -17,18 +17,34 @@ function Passwords({ user, rows = [] }) {
         <tbody>
           {rows.map((row, index) => (
             <tr key={row.id || index}>
-              <td>{row.loginUrl}</td>
+              <td>
+                <a href={row.loginUrl} target="_blank">
+                  {row.loginUrl}
+                </a>
+              </td>
               <td>{row.login}</td>
-              <td>{row.password || <button>Show</button>}</td>
+              <td>
+                {row.password || (
+                  <a href={`/passwords/${row.id}`} role="button">
+                    Show
+                  </a>
+                )}
+              </td>
             </tr>
           ))}
         </tbody>
         <tfoot>
           <tr>
             <td colSpan={3}>
-              <a href="/passwords/new" role="button" style={{ width: "100%" }}>
-                Add
-              </a>
+              {hideAddButton ? null : (
+                <a
+                  href="/passwords/new"
+                  role="button"
+                  style={{ width: "100%" }}
+                >
+                  Add
+                </a>
+              )}
             </td>
           </tr>
         </tfoot>

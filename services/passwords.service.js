@@ -28,11 +28,6 @@ async function insert({ loginUrl, login, password, masterPassword }) {
   return null;
 }
 
-async function list() {
-  const rows = await passwordsTable.list();
-  return rows;
-}
-
 function validateInsertData({ loginUrl, login, password, masterPassword }) {
   const validationErrors = {};
   let hasValidationErrors = false;
@@ -87,6 +82,39 @@ function encrypt(password, masterPassword) {
   };
 }
 
+async function list() {
+  const rows = await passwordsTable.list();
+  return rows;
+}
+
+async function findById(id) {
+  const row = await passwordsTable.findById(id);
+  return row;
+}
+
+async function findByIdAndDecrypt({ id, masterPassword }) {
+  const row = await passwordsTable.findById(id);
+
+  if (!row) {
+    return null;
+  }
+
+  const { login, loginUrl, encryptedPassword, iv, salt } = row;
+
+  try {
+    const password = decrypt(encryptedPassword, masterPassword, iv, salt);
+
+    return {
+      id,
+      login,
+      loginUrl,
+      password,
+    };
+  } catch (error) {
+    return null;
+  }
+}
+
 function decrypt(encryptedPassword, masterPassword, ivHex, saltHex) {
   const iv = Buffer.from(ivHex, HEX);
   const salt = Buffer.from(saltHex, HEX);
@@ -99,19 +127,9 @@ function decrypt(encryptedPassword, masterPassword, ivHex, saltHex) {
   return decrypted;
 }
 
-// Example usage
-// const masterPassword = "myStrongMasterPassword!";
-// const passwordToStore = "superSecretPassword123";
-
-// const encryptedData = encrypt(passwordToStore, masterPassword);
-// console.log("Encrypted Data:", encryptedData);
-
-// const decryptedPassword = decrypt(
-//   encryptedData.encryptedPassword,
-//   masterPassword,
-//   encryptedData.iv,
-//   encryptedData.salt
-// );
-// console.log("Decrypted Password:", decryptedPassword);
-
-module.exports = { insert, list };
+module.exports = {
+  insert,
+  list,
+  findById,
+  findByIdAndDecrypt,
+};
