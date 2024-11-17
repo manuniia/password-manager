@@ -22,6 +22,17 @@ class Database {
             hash TEXT
         )`
       );
+
+      this.connection.run(
+        `CREATE TABLE IF NOT EXISTS passwords (
+            id INTEGER PRIMARY KEY,
+            loginUrl TEXT,
+            login TEXT,
+            iv TEXT,
+            salt TEXT,
+            encryptedPassword TEXT
+        )`
+      );
     });
   }
 

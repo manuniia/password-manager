@@ -3,13 +3,20 @@ const Layout = require("./components/Layout");
 const InputField = require("./components/InputField");
 const CsrfTokenField = require("./components/CsrfTokenField");
 
-function Login({ login, password, validationErrors = {}, csrfToken }) {
+function AddPassword({ login, password, validationErrors = {}, csrfToken }) {
   return (
     <Layout>
-      <h3>Log In</h3>
+      <h3>Add password</h3>
 
-      <form action="/login" method="post">
+      <form action="/passwords" method="post">
         <CsrfTokenField csrfToken={csrfToken} />
+
+        <InputField
+          name="loginUrl"
+          label="Login URL"
+          error={validationErrors.loginUrl}
+          defaultValue={loginUrl}
+        />
 
         <InputField
           name="login"
@@ -26,10 +33,18 @@ function Login({ login, password, validationErrors = {}, csrfToken }) {
           type="password"
         />
 
-        <button type="submit">Log In</button>
+        <InputField
+          name="masterPassword"
+          label="Master password"
+          error={validationErrors.masterPassword}
+          defaultValue={masterPassword}
+          type="masterPassword"
+        />
+
+        <button type="submit">Save</button>
       </form>
     </Layout>
   );
 }
 
-module.exports = Login;
+module.exports = AddPassword;

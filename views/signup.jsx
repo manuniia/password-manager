@@ -12,7 +12,6 @@ function SignUp({
 }) {
   return (
     <Layout>
-      <h1>Password Manger</h1>
       <h3>Sign Up</h3>
 
       <form action="/signup" method="post">

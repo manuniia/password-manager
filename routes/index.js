@@ -81,11 +81,6 @@ router.post("/login", async function (req, res, next) {
 
 router.get("/dashboard", isAuth, async function (req, res, next) {
   const { user } = req.session;
-  if (!user?.isLoggedIn) {
-    res.redirect("/login");
-    return;
-  }
-
   res.render("dashboard", { user });
 });
 
@@ -98,5 +93,7 @@ router.get("/logout", async function (req, res, next) {
     }
   });
 });
+
+router.get("/passwords/new", async function (req, res, next) {});
 
 module.exports = router;
