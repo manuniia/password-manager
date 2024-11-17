@@ -22,6 +22,17 @@ class Database {
             hash TEXT
         )`
       );
+
+      this.connection.run(
+        `CREATE TABLE IF NOT EXISTS passwords (
+            id INTEGER PRIMARY KEY,
+            loginUrl TEXT,
+            login TEXT,
+            iv TEXT,
+            salt TEXT,
+            encryptedPassword TEXT
+        )`
+      );
     });
   }
 
@@ -47,6 +58,19 @@ class Database {
         }
 
         resolve(row);
+      });
+    });
+  }
+
+  async all(query, params = []) {
+    return new Promise((resolve, reject) => {
+      this.connection.all(query, params, function (err, rows) {
+        if (err) {
+          reject(err);
+          return;
+        }
+
+        resolve(rows);
       });
     });
   }

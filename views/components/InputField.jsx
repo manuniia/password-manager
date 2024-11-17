@@ -7,6 +7,7 @@ function InputField({
   required = false,
   defaultValue,
   type = "text",
+  ...props
 }) {
   return (
     <>
@@ -18,6 +19,7 @@ function InputField({
         aria-invalid={error ? true : undefined}
         defaultValue={defaultValue}
         type={type}
+        {...props}
       />
       {error ? <small>{error}</small> : null}
     </>
