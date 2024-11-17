@@ -36,12 +36,33 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser(COOKIE_PARSER_SECRET));
 app.use(express.static(path.join(__dirname, "public")));
+
+// prevent the browser from caching pages and reload them with a fresh CSRF token
+app.use((req, res, next) => {
+  res.set(
+    "Cache-Control",
+    "no-store, no-cache, must-revalidate, proxy-revalidate"
+  );
+  res.set("Pragma", "no-cache");
+  res.set("Expires", "0");
+  next();
+});
+
+// use CSRF middleware to check if CSRF token is valid
 app.use(
   csurf(
     CSRF_SECRET, // secret -- must be 32 bits or chars in length
     ["POST"] // the request methods we want CSRF protection for
   )
 );
+
+// regenerate CSRF token for all GET requests
+app.use((req, res, next) => {
+  if (req.method === "GET") {
+    res.locals.csrfToken = req.csrfToken();
+  }
+  next();
+});
 
 app.set("views", __dirname + "/views");
 app.set("view engine", "jsx");
