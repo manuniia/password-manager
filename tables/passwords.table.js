@@ -19,17 +19,10 @@ async function insert({ loginUrl, login, iv, salt, encryptedPassword }) {
       $encryptedPassword: encryptedPassword,
     }
   );
-  const { id } = await findById(id);
-  return id;
 }
 
-async function list(search) {
-  return db.get(
-    `SELECT id, loginUrl, login FROM passwords WHERE loginUrl LIKE %$search%`,
-    {
-      $search: search,
-    }
-  );
+async function list() {
+  return db.all(`SELECT id, loginUrl, login FROM passwords`);
 }
 
 async function remove(id) {

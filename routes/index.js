@@ -1,5 +1,7 @@
 const express = require("express");
 const router = express.Router();
+
+const { isAuth } = require("../middleware/auth.middleware");
 const authRouter = require("./auth.routes");
 const passwordsRouter = require("./passwords.routes");
 
@@ -8,6 +10,6 @@ router.get("/", async function (req, res, _next) {
 });
 
 router.use("/", authRouter);
-router.use("/", passwordsRouter);
+router.use("/", isAuth, passwordsRouter);
 
 module.exports = router;

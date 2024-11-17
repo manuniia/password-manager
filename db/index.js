@@ -62,6 +62,19 @@ class Database {
     });
   }
 
+  async all(query, params = []) {
+    return new Promise((resolve, reject) => {
+      this.connection.all(query, params, function (err, rows) {
+        if (err) {
+          reject(err);
+          return;
+        }
+
+        resolve(rows);
+      });
+    });
+  }
+
   async run(query, params = []) {
     return new Promise((resolve, reject) => {
       this.connection.run(query, params, function (err) {

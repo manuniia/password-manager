@@ -3,9 +3,17 @@ const Layout = require("./components/Layout");
 const InputField = require("./components/InputField");
 const CsrfTokenField = require("./components/CsrfTokenField");
 
-function NewPassword({ login, password, validationErrors = {}, csrfToken }) {
+function NewPassword({
+  user,
+  csrfToken,
+  loginUrl,
+  login,
+  password,
+  masterPassword,
+  validationErrors = {},
+}) {
   return (
-    <Layout>
+    <Layout user={user}>
       <h3>Add password</h3>
 
       <form action="/passwords" method="post">

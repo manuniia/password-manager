@@ -23,18 +23,13 @@ async function insert({ loginUrl, login, password, masterPassword }) {
   }
 
   const { encryptedPassword, iv, salt } = encrypt(password, masterPassword);
-  const id = await passwordsTable.insert(
-    loginUrl,
-    login,
-    iv,
-    salt,
-    encryptedPassword
-  );
-  return id;
+  await passwordsTable.insert({ loginUrl, login, iv, salt, encryptedPassword });
+
+  return null;
 }
 
-async function list({ search }) {
-  const rows = await passwordsTable.list(search);
+async function list() {
+  const rows = await passwordsTable.list();
   return rows;
 }
 

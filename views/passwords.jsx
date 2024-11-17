@@ -9,9 +9,8 @@ function Passwords({ user, rows = [] }) {
           <tr>
             <th scope="col">Login URL</th>
             <th scope="col">login</th>
-            <th scope="col">Password</th>
-            <th scope="col">
-              <button>Add</button>
+            <th scope="col" style={{ width: "5rem" }}>
+              Password
             </th>
           </tr>
         </thead>
@@ -20,19 +19,17 @@ function Passwords({ user, rows = [] }) {
             <tr key={row.id || index}>
               <td>{row.loginUrl}</td>
               <td>{row.login}</td>
-              <td>{row.password || "*****************"}</td>
-              <td>
-                <button style={{ width: "100%" }}>Show</button>
-              </td>
+              <td>{row.password || <button>Show</button>}</td>
             </tr>
           ))}
         </tbody>
         <tfoot>
           <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td colSpan={3}>
+              <a href="/passwords/new" role="button" style={{ width: "100%" }}>
+                Add
+              </a>
+            </td>
           </tr>
         </tfoot>
       </table>
