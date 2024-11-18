@@ -56,14 +56,6 @@ app.use(
   )
 );
 
-// regenerate CSRF token for all GET requests
-app.use((req, res, next) => {
-  if (req.method === "GET") {
-    res.locals.csrfToken = req.csrfToken();
-  }
-  next();
-});
-
 app.set("views", __dirname + "/views");
 app.set("view engine", "jsx");
 app.engine("jsx", require("express-react-views").createEngine());
