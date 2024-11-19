@@ -38,15 +38,15 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser(COOKIE_PARSER_SECRET));
 
 // prevent the browser from caching pages and reload them with a fresh CSRF token
-app.use((req, res, next) => {
-  res.set(
-    "Cache-Control",
-    "no-store, no-cache, must-revalidate, proxy-revalidate"
-  );
-  res.set("Pragma", "no-cache");
-  res.set("Expires", "0");
-  next();
-});
+// app.use((req, res, next) => {
+//   res.set(
+//     "Cache-Control",
+//     "no-store, no-cache, must-revalidate, proxy-revalidate"
+//   );
+//   res.set("Pragma", "no-cache");
+//   res.set("Expires", "0");
+//   next();
+// });
 
 app.use(csrfDebug(CSRF_SECRET));
 
@@ -56,5 +56,10 @@ app.set("view engine", "jsx");
 app.engine("jsx", require("express-react-views").createEngine());
 
 app.use("/", indexRouter);
+
+const port = process.env.PORT || 4000;
+app.listen(port, () => {
+  console.log(`Example app listening on port ${port}`);
+});
 
 module.exports = app;
