@@ -1,18 +1,13 @@
 const express = require("express");
 const router = express.Router();
-const csurf = require("tiny-csrf");
 
 const userService = require("../services/user.service");
-const { CSRF_SECRET } = require("../const");
 
-const csrfMiddleware = csurf(CSRF_SECRET);
-
-router.get("/signup", csrfMiddleware, async function (req, res, next) {
-  const csrfToken = req.csrfToken();
-  res.render("signup", { csrfToken });
+router.get("/signup", async function (req, res, next) {
+  res.render("signup");
 });
 
-router.post("/signup", csrfMiddleware, async function (req, res, next) {
+router.post("/signup", async function (req, res, next) {
   const {
     body: { login, password, confirm_password },
   } = req;
@@ -36,12 +31,11 @@ router.post("/signup", csrfMiddleware, async function (req, res, next) {
   });
 });
 
-router.get("/login", csrfMiddleware, async function (req, res, next) {
-  const csrfToken = req.csrfToken();
-  res.render("login", { csrfToken });
+router.get("/login", async function (req, res, next) {
+  res.render("login");
 });
 
-router.post("/login", csrfMiddleware, async function (req, res, next) {
+router.post("/login", async function (req, res, next) {
   const {
     body: { login, password },
   } = req;
