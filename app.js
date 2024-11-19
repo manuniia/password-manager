@@ -8,6 +8,7 @@ const SQLiteStore = require("connect-sqlite3")(session);
 const csurf = require("tiny-csrf");
 
 const indexRouter = require("./routes/index");
+const { csrfDebug } = require("./middleware/csrf-debug.middleware");
 
 const {
   DB_FILE_NAME,
@@ -47,6 +48,8 @@ app.use((req, res, next) => {
   res.set("Expires", "0");
   next();
 });
+
+app.use(csrfDebug(CSRF_SECRET));
 
 // use CSRF middleware to check if CSRF token is valid
 app.use(
