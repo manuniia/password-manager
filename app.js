@@ -5,7 +5,6 @@ const logger = require("morgan");
 const app = express();
 const session = require("express-session");
 const SQLiteStore = require("connect-sqlite3")(session);
-const csurf = require("tiny-csrf");
 
 const indexRouter = require("./routes/index");
 const { csrfDebug } = require("./middleware/csrf-debug.middleware");
