@@ -58,23 +58,23 @@ async function logIn({ login, password }) {
   }
 
   if (hasValidationErrors) {
-    return validationErrors;
+    return { validationErrors };
   }
 
   const user = await userTable.findByLogin(login);
   if (!user) {
     validationErrors.password = "Either login or password is incorrect";
-    return validationErrors;
+    return { validationErrors };
   }
 
   isPasswordCorrect = await bcrypt.compare(password, user.hash);
 
   if (!isPasswordCorrect) {
     validationErrors.password = "Either login or password is incorrect";
-    return validationErrors;
+    return { validationErrors };
   }
 
-  return null;
+  return { user };
 }
 
 module.exports = { signUp, logIn };

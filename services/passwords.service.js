@@ -10,7 +10,7 @@ const SALT_LENGTH = 16;
 const UTF8 = "utf8";
 const HEX = "hex";
 
-async function insert({ loginUrl, login, password, masterPassword }) {
+async function insert({ loginUrl, login, password, masterPassword, userId }) {
   const validationErrors = validateInsertData({
     loginUrl,
     login,
@@ -23,7 +23,14 @@ async function insert({ loginUrl, login, password, masterPassword }) {
   }
 
   const { encryptedPassword, iv, salt } = encrypt(password, masterPassword);
-  await passwordsTable.insert({ loginUrl, login, iv, salt, encryptedPassword });
+  await passwordsTable.insert({
+    loginUrl,
+    login,
+    iv,
+    salt,
+    encryptedPassword,
+    userId,
+  });
 
   return null;
 }
@@ -82,18 +89,18 @@ function encrypt(password, masterPassword) {
   };
 }
 
-async function list() {
-  const rows = await passwordsTable.list();
+async function list(userId) {
+  const rows = await passwordsTable.list(userId);
   return rows;
 }
 
-async function findById(id) {
-  const row = await passwordsTable.findById(id);
+async function findById(id, userId) {
+  const row = await passwordsTable.findById(id, userId);
   return row;
 }
 
-async function findByIdAndDecrypt({ id, masterPassword }) {
-  const row = await passwordsTable.findById(id);
+async function findByIdAndDecrypt({ id, masterPassword, userId }) {
+  const row = await passwordsTable.findById(id, userId);
 
   if (!row) {
     return null;

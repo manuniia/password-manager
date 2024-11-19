@@ -26,12 +26,14 @@ class Database {
       this.connection.run(
         `CREATE TABLE IF NOT EXISTS passwords (
             id INTEGER PRIMARY KEY,
+            userId INT,
             loginUrl TEXT,
             login TEXT,
             iv TEXT,
             salt TEXT,
             encryptedPassword TEXT
-        )`
+        );
+        CREATE INDEX IF NOT EXISTS passwordsUserIndex ON passwords (userId)`
       );
     });
   }

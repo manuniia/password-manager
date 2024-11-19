@@ -2,32 +2,45 @@ var { Database } = require("../db");
 
 const db = new Database();
 
-async function findById(id) {
-  return db.get(`SELECT * FROM passwords WHERE id = $id`, {
+async function findById(id, userId) {
+  return db.get(`SELECT * FROM passwords WHERE id = $id AND userId=$userId`, {
     $id: id,
+    $userId: userId,
   });
 }
 
-async function insert({ loginUrl, login, iv, salt, encryptedPassword }) {
+async function insert({
+  loginUrl,
+  login,
+  iv,
+  salt,
+  encryptedPassword,
+  userId,
+}) {
   await db.run(
-    `INSERT INTO passwords VALUES ( NULL, $loginUrl, $login, $iv, $salt, $encryptedPassword)`,
+    `INSERT INTO passwords VALUES ( NULL, $userId, $loginUrl, $login, $iv, $salt, $encryptedPassword)`,
     {
       $loginUrl: loginUrl,
       $login: login,
       $iv: iv,
       $salt: salt,
       $encryptedPassword: encryptedPassword,
+      $userId: userId,
     }
   );
 }
 
-async function list() {
-  return db.all(`SELECT id, loginUrl, login FROM passwords`);
+async function list(userId) {
+  return db.all(
+    `SELECT id, loginUrl, login FROM passwords WHERE userId=$userId`,
+    { $userId: userId }
+  );
 }
 
 async function remove(id) {
-  return db.get(`DELETE FROM passwords WHERE id = $id`, {
+  return db.get(`DELETE FROM passwords WHERE id = $id AND userId=$V`, {
     $id: id,
+    $userId: userId,
   });
 }
 

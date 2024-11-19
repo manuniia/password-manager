@@ -8,7 +8,7 @@ Our password manager ensures that your data remains safe with industry-standard 
 
 Project is deployed with Render.com
 
-You can see deployed project here: https://password-manager-xbwv.onrender.com
+You can see deployed project here: https://password-manager-lryp.onrender.com
 
 ## Install
 

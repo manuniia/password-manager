@@ -3,13 +3,9 @@ const router = express.Router();
 
 const passwordsService = require("../services/passwords.service");
 
-router.get("/", async function (req, res, _next) {
-  res.render("home", { user: req.session.user });
-});
-
 router.get("/passwords", async function (req, res, next) {
   const { user } = req.session;
-  const rows = await passwordsService.list();
+  const rows = await passwordsService.list(user.id);
   res.render("passwords", { user, rows });
 });
 
@@ -24,12 +20,14 @@ router.get("/passwords/new", async function (req, res, next) {
 });
 
 router.post("/passwords", async function (req, res, next) {
+  const { user } = req.session;
   const { loginUrl, login, password, masterPassword } = req.body;
   const result = await passwordsService.insert({
     loginUrl,
     login,
     password,
     masterPassword,
+    userId: user.id,
   });
 
   if (result === null) {
@@ -37,7 +35,6 @@ router.post("/passwords", async function (req, res, next) {
   }
 
   const csrfToken = req.csrfToken();
-  const { user } = req.session;
 
   res.render("new-password", {
     user,
@@ -55,7 +52,7 @@ router.get("/passwords/:id", async function (req, res, next) {
   const csrfToken = req.csrfToken();
   const { user } = req.session;
 
-  const row = await passwordsService.findById(id);
+  const row = await passwordsService.findById(id, user.id);
 
   if (!row) {
     return res.render("not-found", { user: req.session.user });
@@ -72,6 +69,7 @@ router.post("/passwords/:id", async function (req, res, next) {
   const row = await passwordsService.findByIdAndDecrypt({
     id,
     masterPassword,
+    userId: user.id,
   });
 
   if (!row) {

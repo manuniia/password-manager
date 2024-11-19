@@ -40,12 +40,16 @@ router.post("/login", async function (req, res, next) {
     body: { login, password },
   } = req;
 
-  const validationErrors = await userService.logIn({ login, password });
+  const { validationErrors, user } = await userService.logIn({
+    login,
+    password,
+  });
 
   if (!validationErrors) {
     req.session.user = {
       isLoggedIn: true,
       login: login,
+      id: user.id,
     };
 
     req.session.save((err) => {
