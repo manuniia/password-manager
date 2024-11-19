@@ -42,3 +42,7 @@ https://www.stackhawk.com/blog/node-js-csrf-protection-guide-examples-and-how-to
 ### Hosting and deployment
 
 https://render.com/
+
+### TLS Certificate
+
+https://docs.render.com/tls

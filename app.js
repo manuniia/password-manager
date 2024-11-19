@@ -36,7 +36,6 @@ app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser(COOKIE_PARSER_SECRET));
-app.use(express.static(path.join(__dirname, "public")));
 
 // prevent the browser from caching pages and reload them with a fresh CSRF token
 app.use((req, res, next) => {
@@ -51,14 +50,7 @@ app.use((req, res, next) => {
 
 app.use(csrfDebug(CSRF_SECRET));
 
-// use CSRF middleware to check if CSRF token is valid
-app.use(
-  csurf(
-    CSRF_SECRET, // secret -- must be 32 bits or chars in length
-    ["POST"] // the request methods we want CSRF protection for
-  )
-);
-
+app.use(express.static(path.join(__dirname, "public")));
 app.set("views", __dirname + "/views");
 app.set("view engine", "jsx");
 app.engine("jsx", require("express-react-views").createEngine());
