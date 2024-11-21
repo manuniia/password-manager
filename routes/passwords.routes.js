@@ -88,4 +88,45 @@ router.post("/passwords/:id", async function (req, res, next) {
   res.render("passwords", { user, rows: [row], hideAddButton: true });
 });
 
+router.get("/passwords/:id/delete", async function (req, res, next) {
+  const { id } = req.params;
+  const csrfToken = req.csrfToken();
+  const { user } = req.session;
+
+  const row = await passwordsService.findById(id, user.id);
+
+  if (!row) {
+    return res.render("not-found", { user: req.session.user });
+  }
+
+  res.render("delete-password", { id, csrfToken, user });
+});
+
+router.post("/passwords/:id/delete", async function (req, res, next) {
+  const { id, masterPassword } = req.body;
+  const csrfToken = req.csrfToken();
+  const { user } = req.session;
+
+  const success = await passwordsService.findByIdAndDelete({
+    id,
+    masterPassword,
+    userId: user.id,
+  });
+
+  if (!success) {
+    const validationErrors = {
+      masterPassword: "Please check the master password",
+    };
+    return res.render("delete-password", {
+      id,
+      csrfToken,
+      user,
+      masterPassword,
+      validationErrors,
+    });
+  }
+
+  res.redirect("/passwords");
+});
+
 module.exports = router;

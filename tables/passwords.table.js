@@ -37,8 +37,8 @@ async function list(userId) {
   );
 }
 
-async function remove(id) {
-  return db.get(`DELETE FROM passwords WHERE id = $id AND userId=$V`, {
+async function remove(id, userId) {
+  await db.run(`DELETE FROM passwords WHERE id = $id AND userId=$userId`, {
     $id: id,
     $userId: userId,
   });

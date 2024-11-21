@@ -9,7 +9,7 @@ function Passwords({ user, rows = [], hideAddButton = false }) {
           <tr>
             <th scope="col">Login URL</th>
             <th scope="col">login</th>
-            <th scope="col" style={{ width: "5rem" }}>
+            <th scope="col" style={{ width: "13rem" }}>
               Password
             </th>
           </tr>
@@ -25,9 +25,18 @@ function Passwords({ user, rows = [], hideAddButton = false }) {
               <td>{row.login}</td>
               <td>
                 {row.password || (
-                  <a href={`/passwords/${row.id}`} role="button">
-                    Show
-                  </a>
+                  <div className="grid">
+                    <a href={`/passwords/${row.id}`} role="button">
+                      Show
+                    </a>
+                    <a
+                      href={`/passwords/${row.id}/delete`}
+                      role="button"
+                      className="secondary"
+                    >
+                      Delete
+                    </a>
+                  </div>
                 )}
               </td>
             </tr>

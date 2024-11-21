@@ -122,6 +122,25 @@ async function findByIdAndDecrypt({ id, masterPassword, userId }) {
   }
 }
 
+async function findByIdAndDelete({ id, masterPassword, userId }) {
+  const row = await passwordsTable.findById(id, userId);
+
+  if (!row) {
+    return null;
+  }
+
+  const { encryptedPassword, iv, salt } = row;
+
+  try {
+    decrypt(encryptedPassword, masterPassword, iv, salt);
+  } catch (error) {
+    return null;
+  }
+
+  await passwordsTable.remove(id, userId);
+  return true;
+}
+
 function decrypt(encryptedPassword, masterPassword, ivHex, saltHex) {
   const iv = Buffer.from(ivHex, HEX);
   const salt = Buffer.from(saltHex, HEX);
@@ -139,4 +158,5 @@ module.exports = {
   list,
   findById,
   findByIdAndDecrypt,
+  findByIdAndDelete,
 };
