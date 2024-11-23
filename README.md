@@ -15,6 +15,7 @@ You can see deployed project here: https://password-manager-lryp.onrender.com
 - clone the project
 - install `nvm` https://github.com/nvm-sh/nvm?tab=readme-ov-file#installing-and-updating
 - install `yarn` https://classic.yarnpkg.com/lang/en/docs/install
+- run `nvm install`
 - run `nvm use`
 - run `yarn`
 

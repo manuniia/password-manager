@@ -1,4 +1,5 @@
 const express = require("express");
+const helmet = require("helmet");
 const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
@@ -15,6 +16,8 @@ const {
   SESSION_COOKIE_MAX_AGE,
   COOKIE_PARSER_SECRET,
 } = require("./const");
+
+app.use(helmet());
 
 app.use(
   session({
