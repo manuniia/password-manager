@@ -8,6 +8,7 @@ const session = require("express-session");
 const SQLiteStore = require("connect-sqlite3")(session);
 
 const indexRouter = require("./routes/index");
+const { handleErrors } = require("./middleware/error.middleware");
 
 const {
   DB_FILE_NAME,
@@ -43,5 +44,6 @@ app.set("view engine", "jsx");
 app.engine("jsx", require("express-react-views").createEngine());
 
 app.use("/", indexRouter);
+app.use(handleErrors);
 
 module.exports = app;
