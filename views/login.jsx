@@ -4,8 +4,6 @@ const InputField = require("./components/InputField");
 const CsrfTokenField = require("./components/CsrfTokenField");
 
 function Login({ login, password, validationErrors = {}, csrfToken }) {
-  console.warn({ csrfToken });
-
   return (
     <Layout>
       <h3>Log In</h3>
