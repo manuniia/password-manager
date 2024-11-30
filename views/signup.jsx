@@ -14,7 +14,7 @@ function SignUp({
     <Layout>
       <h3>Sign Up</h3>
 
-      <form action="/signup" method="post">
+      <form action="/auth/signup" method="post">
         <CsrfTokenField csrfToken={csrfToken} />
 
         <InputField

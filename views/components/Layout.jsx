@@ -39,7 +39,7 @@ function Layout({
                     <summary>{user.login}</summary>
                     <ul dir="rtl">
                       <li>
-                        <a href="/logout">Log out</a>
+                        <a href="/auth/logout">Log out</a>
                       </li>
                     </ul>
                   </details>
@@ -48,7 +48,7 @@ function Layout({
             ) : (
               <ul>
                 <li>
-                  <a href="/login">Log in</a>
+                  <a href="/auth/login">Log in</a>
                 </li>
               </ul>
             )}

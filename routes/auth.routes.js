@@ -4,7 +4,8 @@ const router = express.Router();
 const userService = require("../services/user.service");
 
 router.get("/signup", async function (req, res, next) {
-  res.render("signup");
+  const csrfToken = req.csrfToken();
+  res.render("signup", { csrfToken });
 });
 
 router.post("/signup", async function (req, res, next) {
@@ -19,20 +20,23 @@ router.post("/signup", async function (req, res, next) {
   });
 
   if (!validationErrors) {
-    res.redirect("/login");
+    res.redirect("/auth/login");
     return;
   }
 
+  const csrfToken = req.csrfToken();
   res.render("signup", {
     validationErrors,
     login,
     password,
     confirm_password,
+    csrfToken,
   });
 });
 
 router.get("/login", async function (req, res, next) {
-  res.render("login");
+  const csrfToken = req.csrfToken();
+  res.render("login", { csrfToken });
 });
 
 router.post("/login", async function (req, res, next) {
@@ -48,7 +52,7 @@ router.post("/login", async function (req, res, next) {
   if (!validationErrors) {
     req.session.user = {
       isLoggedIn: true,
-      login: login,
+      login,
       id: user.id,
     };
 
@@ -63,7 +67,8 @@ router.post("/login", async function (req, res, next) {
     return;
   }
 
-  res.render("login", { login, password, validationErrors });
+  const csrfToken = req.csrfToken();
+  res.render("login", { login, password, validationErrors, csrfToken });
 });
 
 router.get("/logout", async function (req, res, next) {

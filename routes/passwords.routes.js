@@ -3,13 +3,13 @@ const router = express.Router();
 
 const passwordsService = require("../services/passwords.service");
 
-router.get("/passwords", async function (req, res, next) {
+router.get("/", async function (req, res, next) {
   const { user } = req.session;
   const rows = await passwordsService.list(user.id);
   res.render("passwords", { user, rows });
 });
 
-router.get("/passwords/new", async function (req, res, next) {
+router.get("/new", async function (req, res, next) {
   const { user } = req.session;
   const csrfToken = req.csrfToken();
 
@@ -19,7 +19,7 @@ router.get("/passwords/new", async function (req, res, next) {
   });
 });
 
-router.post("/passwords", async function (req, res, next) {
+router.post("/", async function (req, res, next) {
   const { user } = req.session;
   const { loginUrl, login, password, masterPassword } = req.body;
   const result = await passwordsService.insert({
@@ -47,7 +47,7 @@ router.post("/passwords", async function (req, res, next) {
   });
 });
 
-router.get("/passwords/:id", async function (req, res, next) {
+router.get("/:id", async function (req, res, next) {
   const { id } = req.params;
   const csrfToken = req.csrfToken();
   const { user } = req.session;
@@ -61,7 +61,7 @@ router.get("/passwords/:id", async function (req, res, next) {
   res.render("show-password", { id, csrfToken, user });
 });
 
-router.post("/passwords/:id", async function (req, res, next) {
+router.post("/:id", async function (req, res, next) {
   const { id, masterPassword } = req.body;
   const csrfToken = req.csrfToken();
   const { user } = req.session;
@@ -88,7 +88,7 @@ router.post("/passwords/:id", async function (req, res, next) {
   res.render("passwords", { user, rows: [row], hideAddButton: true });
 });
 
-router.get("/passwords/:id/delete", async function (req, res, next) {
+router.get("/:id/delete", async function (req, res, next) {
   const { id } = req.params;
   const csrfToken = req.csrfToken();
   const { user } = req.session;
@@ -102,7 +102,7 @@ router.get("/passwords/:id/delete", async function (req, res, next) {
   res.render("delete-password", { id, csrfToken, user });
 });
 
-router.post("/passwords/:id/delete", async function (req, res, next) {
+router.post("/:id/delete", async function (req, res, next) {
   const { id, masterPassword } = req.body;
   const csrfToken = req.csrfToken();
   const { user } = req.session;

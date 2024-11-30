@@ -29,7 +29,7 @@ function Home({ user }) {
           managing personal accounts, business logins, or financial credentials.
         </p>
 
-        <a role="button" href="/signup" style={{ width: "100%" }}>
+        <a role="button" href="/auth/signup" style={{ width: "100%" }}>
           Sign up
         </a>
       </body>

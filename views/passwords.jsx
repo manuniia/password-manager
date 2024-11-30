@@ -8,7 +8,7 @@ function Passwords({ user, rows = [], hideAddButton = false }) {
         <thead>
           <tr>
             <th scope="col">Login URL</th>
-            <th scope="col">login</th>
+            <th scope="col">Login</th>
             <th scope="col" style={{ width: "13rem" }}>
               Password
             </th>
